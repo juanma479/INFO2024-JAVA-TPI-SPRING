@@ -25,11 +25,14 @@ public class Paso {
 
     private int tiempoEstimado;
 
+    private boolean esOpcional;
+
+
     @ManyToMany
     @JoinTable(
             name = "paso_ingredientes", joinColumns = @JoinColumn(name = "paso_id"),
             inverseJoinColumns = @JoinColumn(name = "ingrediente_id"))
     private List<Ingrediente> ingredientes;
 
-    private boolean esOpcional;
+
 }
