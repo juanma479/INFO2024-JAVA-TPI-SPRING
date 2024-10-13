@@ -22,7 +22,6 @@ public class Receta {
 
     private String nombre;
 
-
     @Column(length = 5000)
     private String descripcion;
 
@@ -30,7 +29,7 @@ public class Receta {
     private DificultadEnum dificultad;
 
     @ManyToOne
-    @Column(name = "categoria_id")
+    @JoinColumn(name = "categoria_id")
     private Categoria categoria;
 
 
