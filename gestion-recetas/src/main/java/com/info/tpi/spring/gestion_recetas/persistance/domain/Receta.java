@@ -17,21 +17,27 @@ public class Receta {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(length = 36, columnDefinition = "varchar(36)", updatable = false, nullable = false)
     private UUID id;
 
     private String nombre;
 
-    @OneToMany(mappedBy = "receta", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Paso> pasos;
-
-    @Enumerated(EnumType.STRING)
-    private DificultadEnum dificultad;
 
     @Column(length = 5000)
     private String descripcion;
 
+    @Enumerated(EnumType.STRING)
+    private DificultadEnum dificultad;
+
     @ManyToOne
     @Column(name = "categoria_id")
     private Categoria categoria;
+
+
+    @OneToMany(mappedBy = "receta", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Paso> pasos;
+
+
+
 
 }
