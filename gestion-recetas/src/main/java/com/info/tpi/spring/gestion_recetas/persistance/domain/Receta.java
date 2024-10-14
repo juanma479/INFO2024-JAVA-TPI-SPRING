@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.util.List;
 import java.util.UUID;
@@ -17,11 +19,11 @@ public class Receta {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @JdbcTypeCode(SqlTypes.VARCHAR)
     @Column(length = 36, columnDefinition = "varchar(36)", updatable = false, nullable = false)
     private UUID id;
 
     private String nombre;
-
 
     @Column(length = 5000)
     private String descripcion;
@@ -30,7 +32,7 @@ public class Receta {
     private DificultadEnum dificultad;
 
     @ManyToOne
-    @Column(name = "categoria_id")
+    @JoinColumn(name = "categoria_id")
     private Categoria categoria;
 
 
