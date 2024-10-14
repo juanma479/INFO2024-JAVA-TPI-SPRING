@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.List;
 
@@ -18,7 +19,8 @@ public class Paso {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "receta_id")
+    @JoinColumn(name = "receta_id", nullable = false)
+    @ToString.Exclude
     private Receta receta;
 
     private String descripcion;
@@ -28,10 +30,8 @@ public class Paso {
     private boolean esOpcional;
 
 
-    @ManyToMany
-    @JoinTable(
-            name = "paso_ingredientes", joinColumns = @JoinColumn(name = "paso_id"),
-            inverseJoinColumns = @JoinColumn(name = "ingrediente_id"))
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true )
+    @JoinColumn(name = "paso_id")
     private List<Ingrediente> ingredientes;
 
 
