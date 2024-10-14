@@ -9,10 +9,9 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/receta")
@@ -33,4 +32,26 @@ public class RecetaController {
 
         return new ResponseEntity<>(recetaCreated, HttpStatus.CREATED);
     }
+
+
+    @GetMapping("/{idReceta}")
+    public ResponseEntity<RecetaDto> getRecetaById(@PathVariable("idReceta")UUID idReceta) {
+
+        RecetaDto recetaFound = recetaService.getRecetaById(idReceta);
+
+        return new ResponseEntity<>(recetaFound,HttpStatus.OK);
+    }
+
+    @DeleteMapping("{idReceta}")
+    public ResponseEntity<?> deleteReceta(@PathVariable("idReceta") UUID idReceta) {
+
+        boolean isRecetaDeleted = recetaService.deleteReceta(idReceta);
+
+        if(isRecetaDeleted) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        } else {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+    }
+
 }

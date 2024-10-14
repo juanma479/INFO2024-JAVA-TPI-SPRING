@@ -5,11 +5,13 @@ import com.info.tpi.spring.gestion_recetas.exceptions.ResourceNotFoundException;
 import com.info.tpi.spring.gestion_recetas.persistance.domain.Categoria;
 import com.info.tpi.spring.gestion_recetas.persistance.repository.CategoriaRepository;
 import com.info.tpi.spring.gestion_recetas.presentation.dto.categoria.CategoriaCreateDto;
+import com.info.tpi.spring.gestion_recetas.presentation.dto.receta.RecetaByCategoriaDto;
 import com.info.tpi.spring.gestion_recetas.service.mappers.categoria.CategoriaMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -35,5 +37,10 @@ public class CategoriaServiceImpl implements CategoriaService {
         newcategoria.setId(UUID.randomUUID());
         newcategoria.setRecetas(new ArrayList<>());
         return categoriaRepository.save(newcategoria);
+    }
+
+    @Override
+    public List<RecetaByCategoriaDto> getRecetasByCategoria(UUID idReceta) {
+        return List.of();
     }
 }
