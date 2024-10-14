@@ -19,7 +19,7 @@ public class Paso {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "receta_id", nullable = false)
+    @JoinColumn(name = "receta_id")
     @ToString.Exclude
     private Receta receta;
 

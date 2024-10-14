@@ -23,6 +23,17 @@ public class CategoriaServiceImpl implements CategoriaService {
 
     @Override
     public Categoria getOrCreateCategoria(UUID idCategoria, CategoriaCreateDto categoriaCreateDto) {
-        return null;
+
+
+        if (idCategoria != null) {
+            return categoriaRepository.findById(idCategoria).
+                    orElseThrow(()-> new ResourceNotFoundException("Categoría no encontrada."));
+
+        }
+
+        Categoria newcategoria = categoriaMapper.createDtoToEntity(categoriaCreateDto);
+        newcategoria.setId(UUID.randomUUID());
+        newcategoria.setRecetas(new ArrayList<>());
+        return categoriaRepository.save(newcategoria);
     }
 }

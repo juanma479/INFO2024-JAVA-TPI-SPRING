@@ -21,7 +21,6 @@ import java.util.UUID;
 @AllArgsConstructor
 public class RecetaServiceImpl implements RecetaService {
 
-    private CategoriaRepository categoriaRepository;
     private PasoRepository pasoRepository;
     private RecetaRepository recetaRepository;
 
@@ -31,7 +30,25 @@ public class RecetaServiceImpl implements RecetaService {
 
     @Override
     public RecetaDto createReceta(RecetaCreateDto recetaCreateDto, CategoriaCreateDto categoriaCreateDto) {
-        return null;
+
+        Receta newReceta = recetaMapper.createDtoToEntity(recetaCreateDto);
+
+        Categoria categoria = categoriaService.getOrCreateCategoria(recetaCreateDto.idCategoria(),
+                categoriaCreateDto);
+
+        newReceta.setId(UUID.randomUUID());
+        newReceta.setCategoria(categoria);
+
+        Receta recetaSaved = recetaRepository.save(newReceta);
+
+        recetaSaved.getPasos().forEach(paso -> {
+            paso.setReceta(recetaSaved);
+            pasoRepository.save(paso);
+        });
+
+        categoria.getRecetas().add(recetaSaved);
+
+        return recetaMapper.entityToDto(recetaSaved);
     }
 }
 
