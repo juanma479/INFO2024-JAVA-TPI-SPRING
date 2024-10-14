@@ -3,6 +3,7 @@ package com.info.tpi.spring.gestion_recetas.presentation.controller.categoria;
 import com.info.tpi.spring.gestion_recetas.presentation.dto.receta.RecetaByCategoriaDto;
 import com.info.tpi.spring.gestion_recetas.service.categoria.CategoriaService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,8 +22,15 @@ public class CategoriaController {
 
 
     @GetMapping("/{idCategoria}")
-    public ResponseEntity<List<RecetaByCategoriaDto>> getRecetasByCategoria(@PathVariable("idCategoria")UUID idReceta) {
+    public ResponseEntity<?> getRecetasByCategoria(@PathVariable("idCategoria")UUID idReceta) {
 
+        List<RecetaByCategoriaDto> recetasFound = categoriaService.getRecetasByCategoria(idReceta);
+
+        if (!recetasFound.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.OK).body(recetasFound);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
 
     }
 }

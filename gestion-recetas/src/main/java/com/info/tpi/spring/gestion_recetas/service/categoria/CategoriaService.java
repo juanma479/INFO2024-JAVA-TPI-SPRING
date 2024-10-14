@@ -11,5 +11,5 @@ public interface CategoriaService {
 
     Categoria getOrCreateCategoria(UUID idCategoria, CategoriaCreateDto categoriaCreateDto);
 
-    List<RecetaByCategoriaDto> getRecetasByCategoria(UUID idReceta);
+    List<RecetaByCategoriaDto> getRecetasByCategoria(UUID idCategoria);
 }
