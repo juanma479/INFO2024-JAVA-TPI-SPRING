@@ -1,6 +1,7 @@
 package com.info.tpi.spring.gestion_recetas.service.categoria;
 
 import com.info.tpi.spring.gestion_recetas.exceptions.BadRequestException;
+import com.info.tpi.spring.gestion_recetas.exceptions.DuplicateDataException;
 import com.info.tpi.spring.gestion_recetas.exceptions.ResourceNotFoundException;
 import com.info.tpi.spring.gestion_recetas.persistance.domain.Categoria;
 import com.info.tpi.spring.gestion_recetas.persistance.domain.Receta;
@@ -38,10 +39,13 @@ public class CategoriaServiceImpl implements CategoriaService {
 
         }
 
-        Categoria newcategoria = categoriaMapper.createDtoToEntity(categoriaCreateDto);
-        newcategoria.setId(UUID.randomUUID());
-        newcategoria.setRecetas(new ArrayList<>());
-        return categoriaRepository.save(newcategoria);
+        if (categoriaRepository.existsByNombre(categoriaCreateDto.nombre())) {
+            throw new DuplicateDataException("Ya existe una categoría con ese nombre");
+        }else {
+            Categoria newcategoria = categoriaMapper.createDtoToEntity(categoriaCreateDto);
+            newcategoria.setRecetas(new ArrayList<>());
+            return categoriaRepository.save(newcategoria);
+        }
     }
 
     @Override

@@ -1,8 +1,12 @@
 package com.info.tpi.spring.gestion_recetas.presentation.controller.receta;
 
-import com.info.tpi.spring.gestion_recetas.persistance.domain.Receta;
+import com.info.tpi.spring.gestion_recetas.presentation.dto.ingrediente.IngredienteDto;
+import com.info.tpi.spring.gestion_recetas.presentation.dto.paso.PasoChangeDto;
+import com.info.tpi.spring.gestion_recetas.presentation.dto.paso.PasoUpdatedDto;
 import com.info.tpi.spring.gestion_recetas.presentation.dto.receta.RecetaDto;
 import com.info.tpi.spring.gestion_recetas.presentation.dto.receta.RecetaRequestDto;
+import com.info.tpi.spring.gestion_recetas.service.ingrediente.IngredienteService;
+import com.info.tpi.spring.gestion_recetas.service.paso.PasoService;
 import com.info.tpi.spring.gestion_recetas.service.receta.RecetaService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -11,14 +15,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/receta")
+@RequestMapping("/api/v1/recetas")
 @AllArgsConstructor
 @Slf4j
 public class RecetaController {
 
+    private final IngredienteService ingredienteService;
+    private final PasoService pasoService;
     private final RecetaService recetaService;
 
     @PostMapping()
@@ -52,6 +59,32 @@ public class RecetaController {
         } else {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
+    }
+
+
+    @PutMapping("/{idReceta}/pasos")
+    public ResponseEntity<?> updatePasos(@PathVariable("idReceta") UUID idReceta,
+                                         @RequestBody List<PasoChangeDto> pasoChangeDtos) {
+
+        List<PasoUpdatedDto> pasosUpdated = pasoService.updatePasosOfList(idReceta, pasoChangeDtos);
+
+        if (pasosUpdated.isEmpty()) {
+
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error al actualizar pasos de receta.");
+        }
+        return ResponseEntity.ok(pasosUpdated);
+    }
+
+    @GetMapping("/{idReceta}/ingredientes")
+    public ResponseEntity<?> getIngredientesByReceta(@PathVariable("idReceta") UUID idReceta,
+                                                     @RequestParam(value = "idPaso", required = false) Long idPaso) {
+
+        List<IngredienteDto> ingredientesFound = ingredienteService.getIngredientesOfReceta(idReceta, idPaso);
+
+        if (ingredientesFound.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error al buscar ingredientes.");
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(ingredientesFound);
     }
 
 }
