@@ -34,5 +34,4 @@ public class Paso {
     @JoinColumn(name = "paso_id")
     private List<Ingrediente> ingredientes;
 
-
 }

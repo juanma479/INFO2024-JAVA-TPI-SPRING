@@ -14,17 +14,17 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/categoria")
+@RequestMapping("/api/v1/categorias")
 @AllArgsConstructor
 public class CategoriaController {
 
-    private CategoriaService categoriaService;
+    private final CategoriaService categoriaService;
 
 
     @GetMapping("/{idCategoria}")
-    public ResponseEntity<?> getRecetasByCategoria(@PathVariable("idCategoria")UUID idReceta) {
+    public ResponseEntity<?> getRecetasByCategoria(@PathVariable("idCategoria")UUID idCategoria) {
 
-        List<RecetaByCategoriaDto> recetasFound = categoriaService.getRecetasByCategoria(idReceta);
+        List<RecetaByCategoriaDto> recetasFound = categoriaService.getRecetasByCategoria(idCategoria);
 
         if (!recetasFound.isEmpty()) {
             return ResponseEntity.status(HttpStatus.OK).body(recetasFound);

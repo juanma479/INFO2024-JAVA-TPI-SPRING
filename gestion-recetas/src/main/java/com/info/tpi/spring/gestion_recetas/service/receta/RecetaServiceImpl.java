@@ -37,8 +37,7 @@ public class RecetaServiceImpl implements RecetaService {
         Categoria categoria = categoriaService.getOrCreateCategoria(recetaCreateDto.idCategoria(),
                 categoriaCreateDto);
 
-        //Seteamos atributo id y categoria de la receta
-        newReceta.setId(UUID.randomUUID());
+        //Seteamos categoria de la receta
         newReceta.setCategoria(categoria);
 
         //Persistimos la receta
