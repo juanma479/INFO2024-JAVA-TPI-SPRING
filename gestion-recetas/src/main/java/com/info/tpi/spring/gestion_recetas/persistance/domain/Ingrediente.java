@@ -1,9 +1,6 @@
 package com.info.tpi.spring.gestion_recetas.persistance.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,7 +15,9 @@ public class Ingrediente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
     private String nombre;
 
+    @Column(length = 500)
     private String descripcion;
 }

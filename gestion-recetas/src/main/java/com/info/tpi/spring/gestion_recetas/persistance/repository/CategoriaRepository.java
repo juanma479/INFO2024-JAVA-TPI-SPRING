@@ -9,4 +9,8 @@ import java.util.UUID;
 public interface CategoriaRepository extends JpaRepository<Categoria, UUID> {
 
     boolean existsByNombre(String nombre);
+
+//    @Query("SELECT c FROM Categoria c JOIN FETCH c.recetas WHERE c.id = :id")
+//    Optional<Categoria> findByIdWithRecetas(@Param("id") UUID id);
+
 }

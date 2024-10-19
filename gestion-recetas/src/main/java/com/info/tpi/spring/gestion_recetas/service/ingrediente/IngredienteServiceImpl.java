@@ -31,12 +31,8 @@ public class IngredienteServiceImpl implements IngredienteService {
                 .orElseThrow(() -> new ResourceNotFoundException("Receta no encontrada."));
 
         if (idPaso == null) {
-            List<IngredienteDto> ingredientes = new ArrayList<>();
-            receta.getPasos().forEach(paso ->
-                    paso.getIngredientes().forEach(ingrediente ->
-                            ingredientes.add(ingredienteMapper.entityToDto(ingrediente))));
-
-            return ingredientes;
+            return receta.getPasos().stream().flatMap(paso -> paso.getIngredientes().stream())
+                    .map(ingredienteMapper::entityToDto).collect(Collectors.toList());
         } else {
 
             var paso = receta.getPasos().stream().filter(p -> p.getId().equals(idPaso))
