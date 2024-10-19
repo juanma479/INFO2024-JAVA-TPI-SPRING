@@ -23,9 +23,23 @@ public class Categoria {
     @Column(length = 36, columnDefinition = "varchar(36)", updatable = false, nullable = false)
     private UUID id;
 
+    @Column(unique = true)
     private String nombre;
 
-    @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @ToString.Exclude
     private List<Receta> recetas;
+
+
+    public void addReceta(Receta receta) {
+        recetas.add(receta);
+        receta.setCategoria(this);
+    }
+
+    public void removeReceta(Receta receta) {
+        recetas.remove(receta);
+        receta.setCategoria(null);
+    }
+
 }
+

@@ -32,7 +32,6 @@ public class CategoriaServiceImpl implements CategoriaService {
     @Override
     public Categoria getOrCreateCategoria(UUID idCategoria, CategoriaCreateDto categoriaCreateDto) {
 
-
         if (idCategoria != null) {
             return categoriaRepository.findById(idCategoria).
                     orElseThrow(()-> new ResourceNotFoundException("Categoría no encontrada."));
@@ -50,6 +49,12 @@ public class CategoriaServiceImpl implements CategoriaService {
 
     @Override
     public List<RecetaByCategoriaDto> getRecetasByCategoria(UUID idCategoria) {
+
+        if (idCategoria != null) {
+            Categoria categoria = categoriaRepository.findById(idCategoria).
+                    orElseThrow(()-> new ResourceNotFoundException("Categoría no encontrada."));
+        }
+
 
         Optional<Categoria> categoria = categoriaRepository.findById(idCategoria);
 
