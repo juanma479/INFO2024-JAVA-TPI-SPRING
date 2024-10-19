@@ -26,11 +26,7 @@ public class CategoriaController {
 
         List<RecetaByCategoriaDto> recetasFound = categoriaService.getRecetasByCategoria(idCategoria);
 
-        if (!recetasFound.isEmpty()) {
             return ResponseEntity.status(HttpStatus.OK).body(recetasFound);
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
 
     }
 }

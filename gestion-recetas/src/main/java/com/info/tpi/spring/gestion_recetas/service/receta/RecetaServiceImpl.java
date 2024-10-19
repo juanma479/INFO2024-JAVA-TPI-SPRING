@@ -66,10 +66,7 @@ public class RecetaServiceImpl implements RecetaService {
     public boolean deleteReceta(UUID idReceta) {
 
         recetaRepository.deleteById(idReceta);
-        if(!recetaRepository.existsById(idReceta)){
-            return true;
-        };
-        return false;
+        return !recetaRepository.existsById(idReceta);
     }
 }
 

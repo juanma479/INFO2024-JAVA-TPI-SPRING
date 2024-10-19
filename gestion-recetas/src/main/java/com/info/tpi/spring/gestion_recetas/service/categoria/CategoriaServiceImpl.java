@@ -1,21 +1,19 @@
 package com.info.tpi.spring.gestion_recetas.service.categoria;
 
-import com.info.tpi.spring.gestion_recetas.exceptions.BadRequestException;
 import com.info.tpi.spring.gestion_recetas.exceptions.DuplicateDataException;
 import com.info.tpi.spring.gestion_recetas.exceptions.ResourceNotFoundException;
 import com.info.tpi.spring.gestion_recetas.persistance.domain.Categoria;
-import com.info.tpi.spring.gestion_recetas.persistance.domain.Receta;
 import com.info.tpi.spring.gestion_recetas.persistance.repository.CategoriaRepository;
 import com.info.tpi.spring.gestion_recetas.presentation.dto.categoria.CategoriaCreateDto;
 import com.info.tpi.spring.gestion_recetas.presentation.dto.receta.RecetaByCategoriaDto;
 import com.info.tpi.spring.gestion_recetas.service.mappers.categoria.CategoriaMapper;
 import com.info.tpi.spring.gestion_recetas.service.mappers.receta.RecetaMapper;
 import lombok.AllArgsConstructor;
+import org.hibernate.LazyInitializationException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -40,26 +38,20 @@ public class CategoriaServiceImpl implements CategoriaService {
 
         if (categoriaRepository.existsByNombre(categoriaCreateDto.nombre())) {
             throw new DuplicateDataException("Ya existe una categoría con ese nombre");
-        }else {
+        }
             Categoria newcategoria = categoriaMapper.createDtoToEntity(categoriaCreateDto);
             newcategoria.setRecetas(new ArrayList<>());
             return categoriaRepository.save(newcategoria);
-        }
+
     }
 
     @Override
     public List<RecetaByCategoriaDto> getRecetasByCategoria(UUID idCategoria) {
 
-        if (idCategoria != null) {
             Categoria categoria = categoriaRepository.findById(idCategoria).
                     orElseThrow(()-> new ResourceNotFoundException("Categoría no encontrada."));
-        }
 
-
-        Optional<Categoria> categoria = categoriaRepository.findById(idCategoria);
-
-        return categoria.map(value -> value.getRecetas().stream()
-                .map(recetaMapper::entityToByCategoriaDto)
-                .collect(Collectors.toList())).orElseGet(List::of);
+                    return categoria.getRecetas().stream().map(recetaMapper::entityToByCategoriaDto)
+                            .collect(Collectors.toList());
     }
 }

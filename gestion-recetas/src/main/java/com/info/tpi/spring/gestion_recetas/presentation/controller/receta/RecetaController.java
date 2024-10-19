@@ -57,7 +57,7 @@ public class RecetaController {
         if(isRecetaDeleted) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         } else {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Receta no encontrada.");
         }
     }
 
@@ -82,9 +82,9 @@ public class RecetaController {
         List<IngredienteDto> ingredientesFound = ingredienteService.getIngredientesOfReceta(idReceta, idPaso);
 
         if (ingredientesFound.isEmpty()){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error al buscar ingredientes.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se encontraron ingredientes.");
         }
-        return ResponseEntity.status(HttpStatus.OK).body(ingredientesFound);
+        return ResponseEntity.ok(ingredientesFound);
     }
 
 }
