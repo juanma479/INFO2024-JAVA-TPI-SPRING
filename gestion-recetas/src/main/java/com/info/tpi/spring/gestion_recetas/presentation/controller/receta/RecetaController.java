@@ -3,7 +3,6 @@ package com.info.tpi.spring.gestion_recetas.presentation.controller.receta;
 import com.info.tpi.spring.gestion_recetas.presentation.dto.ingrediente.IngredienteDto;
 import com.info.tpi.spring.gestion_recetas.presentation.dto.paso.PasoChangeDto;
 import com.info.tpi.spring.gestion_recetas.presentation.dto.paso.PasoUpdatedDto;
-import com.info.tpi.spring.gestion_recetas.presentation.dto.receta.RecetaByCategoriaDto;
 import com.info.tpi.spring.gestion_recetas.presentation.dto.receta.RecetaDto;
 import com.info.tpi.spring.gestion_recetas.presentation.dto.receta.RecetaRequestDto;
 import com.info.tpi.spring.gestion_recetas.service.ingrediente.IngredienteService;
@@ -16,7 +15,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -120,7 +118,7 @@ public class RecetaController {
     )
     @PutMapping("/{idReceta}/pasos")
     public ResponseEntity<?> updatePasos(@PathVariable("idReceta") UUID idReceta,
-                                         @RequestBody List<PasoChangeDto> pasoChangeDtos) {
+                                         @Valid@RequestBody List<PasoChangeDto> pasoChangeDtos) {
 
         List<PasoUpdatedDto> pasosUpdated = pasoService.updatePasosOfList(idReceta, pasoChangeDtos);
 
