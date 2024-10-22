@@ -1,9 +1,8 @@
 package com.info.tpi.spring.gestion_recetas.service.receta;
 
-import com.info.tpi.spring.gestion_recetas.exceptions.BadRequestException;
+import com.info.tpi.spring.gestion_recetas.exceptions.ResourceNotFoundException;
 import com.info.tpi.spring.gestion_recetas.persistance.domain.Categoria;
 import com.info.tpi.spring.gestion_recetas.persistance.domain.Receta;
-import com.info.tpi.spring.gestion_recetas.persistance.repository.CategoriaRepository;
 import com.info.tpi.spring.gestion_recetas.persistance.repository.PasoRepository;
 import com.info.tpi.spring.gestion_recetas.persistance.repository.RecetaRepository;
 import com.info.tpi.spring.gestion_recetas.presentation.dto.categoria.CategoriaCreateDto;
@@ -14,7 +13,6 @@ import com.info.tpi.spring.gestion_recetas.service.mappers.receta.RecetaMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.UUID;
 
 @Service
@@ -34,8 +32,13 @@ public class RecetaServiceImpl implements RecetaService {
         Receta newReceta = recetaMapper.createDtoToEntity(recetaCreateDto);
 
         //Buscamos o creamos una categoria
-        Categoria categoria = categoriaService.getOrCreateCategoria(recetaCreateDto.idCategoria(),
-                categoriaCreateDto);
+        Categoria categoria;
+        if(recetaCreateDto.idCategoria() != null) {
+            categoria = categoriaService.getCategoria(recetaCreateDto.idCategoria());
+        } else {
+
+            categoria = categoriaService.createCategoria(categoriaCreateDto);
+        }
 
         //Seteamos categoria de la receta
         newReceta.setCategoria(categoria);
@@ -59,7 +62,13 @@ public class RecetaServiceImpl implements RecetaService {
     @Override
     public RecetaDto getRecetaById(UUID idReceta) {
 
-        return recetaMapper.entityToDto(recetaRepository.getReferenceById(idReceta));
+        return recetaMapper.entityToDto(this.getReceta(idReceta));
+    }
+
+    @Override
+    public Receta getReceta(UUID idReceta) {
+        return recetaRepository.findById(idReceta)
+                .orElseThrow(() -> new ResourceNotFoundException("Receta no encontrada."));
     }
 
     @Override

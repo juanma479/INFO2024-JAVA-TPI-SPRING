@@ -6,6 +6,7 @@ import com.info.tpi.spring.gestion_recetas.persistance.domain.Paso;
 import com.info.tpi.spring.gestion_recetas.persistance.repository.RecetaRepository;
 import com.info.tpi.spring.gestion_recetas.presentation.dto.ingrediente.IngredienteDto;
 import com.info.tpi.spring.gestion_recetas.service.mappers.ingrediente.IngredienteMapper;
+import com.info.tpi.spring.gestion_recetas.service.receta.RecetaService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,12 +24,13 @@ public class IngredienteServiceImpl implements IngredienteService {
 
     private IngredienteMapper ingredienteMapper;
 
+    private RecetaService recetaService;
+
 
     @Override
     public List<IngredienteDto> getIngredientesOfReceta(UUID idReceta, Long idPaso) {
 
-        var receta = recetaRepository.findById(idReceta)
-                .orElseThrow(() -> new ResourceNotFoundException("Receta no encontrada."));
+        var receta = recetaService.getReceta(idReceta);
 
         if (idPaso == null) {
             return receta.getPasos().stream().flatMap(paso -> paso.getIngredientes().stream())

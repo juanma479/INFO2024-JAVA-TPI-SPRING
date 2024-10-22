@@ -45,7 +45,7 @@ public class RecetaController {
 
     )
     @PostMapping()
-    public ResponseEntity<RecetaDto> createReceta(@Valid@RequestBody RecetaRequestDto requestDto){
+    public ResponseEntity<RecetaDto> createReceta(@RequestBody RecetaRequestDto requestDto){
 
         RecetaDto recetaCreated = recetaService.createReceta(requestDto.recetaCreateDto(),
                 requestDto.categoriaCreateDto());
