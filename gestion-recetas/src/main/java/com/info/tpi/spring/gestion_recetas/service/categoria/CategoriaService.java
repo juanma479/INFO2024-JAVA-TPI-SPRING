@@ -9,7 +9,9 @@ import java.util.UUID;
 
 public interface CategoriaService {
 
-    Categoria getOrCreateCategoria(UUID idCategoria, CategoriaCreateDto categoriaCreateDto);
+    Categoria getCategoria(UUID idCategoria);
+
+    Categoria createCategoria(CategoriaCreateDto categoriaCreateDto);
 
     List<RecetaByCategoriaDto> getRecetasByCategoria(UUID idCategoria);
 }

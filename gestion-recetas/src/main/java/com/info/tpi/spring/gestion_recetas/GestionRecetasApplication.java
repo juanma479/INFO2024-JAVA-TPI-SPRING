@@ -19,7 +19,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 				version = "v1",
 				contact = @Contact(
 						name = "Juan Manuel González",
-						email = "juanmamk09@gmail.com",
+						email = "juanmamk9@gmail.com",
 						url = "https://github.com/juanma479"
 				)
 		)

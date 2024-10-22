@@ -7,6 +7,7 @@ import com.info.tpi.spring.gestion_recetas.presentation.dto.paso.PasoChangeDto;
 import com.info.tpi.spring.gestion_recetas.presentation.dto.paso.PasoUpdatedDto;
 import com.info.tpi.spring.gestion_recetas.service.mappers.ingrediente.IngredienteMapper;
 import com.info.tpi.spring.gestion_recetas.service.mappers.paso.PasoMapper;
+import com.info.tpi.spring.gestion_recetas.service.receta.RecetaService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,13 +24,13 @@ public class PasoServiceImpl implements PasoService {
     private IngredienteMapper ingredienteMapper;
     private PasoMapper pasoMapper;
 
+    private RecetaService recetaService;
 
     @Override
     public List<PasoUpdatedDto> updatePasosOfList(UUID idReceta, List<PasoChangeDto> pasoChangeDtos) {
 
         if (idReceta != null) {
-            var receta = recetaRepository.findById(idReceta)
-                    .orElseThrow(()-> new ResourceNotFoundException("Receta no encontrada."));
+            var receta = recetaService.getReceta(idReceta);
 
 
             var pasosActuales = receta.getPasos();

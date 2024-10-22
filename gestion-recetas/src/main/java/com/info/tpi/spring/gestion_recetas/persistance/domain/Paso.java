@@ -18,7 +18,7 @@ public class Paso {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(optional = false)
+    @ManyToOne
     @JoinColumn(name = "receta_id")
     @ToString.Exclude
     private Receta receta;
