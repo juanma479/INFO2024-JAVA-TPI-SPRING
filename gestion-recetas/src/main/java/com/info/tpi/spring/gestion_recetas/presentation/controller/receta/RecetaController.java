@@ -45,7 +45,7 @@ public class RecetaController {
 
     )
     @PostMapping()
-    public ResponseEntity<RecetaDto> createReceta(@RequestBody RecetaRequestDto requestDto){
+    public ResponseEntity<RecetaDto> createReceta(@Valid@RequestBody RecetaRequestDto requestDto){
 
         RecetaDto recetaCreated = recetaService.createReceta(requestDto.recetaCreateDto(),
                 requestDto.categoriaCreateDto());
@@ -66,7 +66,7 @@ public class RecetaController {
 
     )
     @GetMapping("/{idReceta}")
-    public ResponseEntity<RecetaDto> getRecetaById(@PathVariable("idReceta")UUID idReceta) {
+    public ResponseEntity<RecetaDto> getRecetaById(@Valid@PathVariable("idReceta")UUID idReceta) {
 
         RecetaDto recetaFound = recetaService.getRecetaById(idReceta);
 
@@ -89,7 +89,7 @@ public class RecetaController {
 
     )
     @DeleteMapping("{idReceta}")
-    public ResponseEntity<?> deleteReceta(@PathVariable("idReceta") UUID idReceta) {
+    public ResponseEntity<?> deleteReceta(@Valid@PathVariable("idReceta") UUID idReceta) {
 
         boolean isRecetaDeleted = recetaService.deleteReceta(idReceta);
 
@@ -117,7 +117,7 @@ public class RecetaController {
             )}
     )
     @PutMapping("/{idReceta}/pasos")
-    public ResponseEntity<?> updatePasos(@PathVariable("idReceta") UUID idReceta,
+    public ResponseEntity<?> updatePasos(@Valid@PathVariable("idReceta") UUID idReceta,
                                          @Valid@RequestBody List<PasoChangeDto> pasoChangeDtos) {
 
         List<PasoUpdatedDto> pasosUpdated = pasoService.updatePasosOfList(idReceta, pasoChangeDtos);
@@ -148,8 +148,8 @@ public class RecetaController {
 
     )
     @GetMapping("/{idReceta}/ingredientes")
-    public ResponseEntity<?> getIngredientesByReceta(@PathVariable("idReceta") UUID idReceta,
-                                                     @RequestParam(value = "idPaso", required = false) Long idPaso) {
+    public ResponseEntity<?> getIngredientesByReceta(@Valid@PathVariable("idReceta") UUID idReceta,
+                                                     @Valid@RequestParam(value = "idPaso", required = false) Long idPaso) {
 
         List<IngredienteDto> ingredientesFound = ingredienteService.getIngredientesOfReceta(idReceta, idPaso);
 

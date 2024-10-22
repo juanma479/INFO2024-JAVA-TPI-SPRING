@@ -28,11 +28,12 @@ public class RecetaServiceImpl implements RecetaService {
 
     @Override
     public RecetaDto createReceta(RecetaCreateDto recetaCreateDto, CategoriaCreateDto categoriaCreateDto) {
-        //Creamos una nueva receta mediante el mapper
+
+
         Receta newReceta = recetaMapper.createDtoToEntity(recetaCreateDto);
 
-        //Buscamos o creamos una categoria
         Categoria categoria;
+
         if(recetaCreateDto.idCategoria() != null) {
             categoria = categoriaService.getCategoria(recetaCreateDto.idCategoria());
         } else {
@@ -40,22 +41,19 @@ public class RecetaServiceImpl implements RecetaService {
             categoria = categoriaService.createCategoria(categoriaCreateDto);
         }
 
-        //Seteamos categoria de la receta
         newReceta.setCategoria(categoria);
 
-        //Persistimos la receta
         Receta recetaSaved = recetaRepository.save(newReceta);
 
-        //Asignamos el atributo receta para cada objeto paso dentro de la receta y lo persistimos
+
         recetaSaved.getPasos().forEach(paso -> {
             paso.setReceta(recetaSaved);
             pasoRepository.save(paso);
         });
 
-        //Agregamos la receta creada a la lista de la categoría a la que pertenece
+
         categoria.getRecetas().add(recetaSaved);
 
-        //Retornamos la receta creada como Dto usando nuevamente un mappper
         return recetaMapper.entityToDto(recetaSaved);
     }
 

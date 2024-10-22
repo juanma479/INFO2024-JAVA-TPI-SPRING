@@ -29,7 +29,6 @@ public class PasoServiceImpl implements PasoService {
     @Override
     public List<PasoUpdatedDto> updatePasosOfList(UUID idReceta, List<PasoChangeDto> pasoChangeDtos) {
 
-        if (idReceta != null) {
             var receta = recetaService.getReceta(idReceta);
 
 
@@ -62,8 +61,5 @@ public class PasoServiceImpl implements PasoService {
             return pasosActuales.stream().map(paso -> pasoMapper.entityToUpdatedDto(paso))
                     .collect(Collectors.toList());
         }
-
-        throw new IllegalArgumentException("El id de receta no puede ser nulo");
-    }
 
 }

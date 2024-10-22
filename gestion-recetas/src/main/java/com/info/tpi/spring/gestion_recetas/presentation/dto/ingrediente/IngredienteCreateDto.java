@@ -11,7 +11,7 @@ public record IngredienteCreateDto(
         @NotBlank(message = "El nombre del ingrediente no puede estar vacio.")
         @Schema(description = "Nombre del ingrediente.", example = "Harina")
         String nombre,
-        @NotBlank
+        @NotBlank(message = "La descripción no puede estar vacía.")
         @Size(max = 500, message = "La descripcion del ingrediente no puede superar los 500 caracteres.")
         @Schema(description = "Descripción del ingrediente.", example = "Media taza de harina.")
         String descripcion) {
