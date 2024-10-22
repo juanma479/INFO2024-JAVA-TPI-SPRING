@@ -20,7 +20,6 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class IngredienteServiceImpl implements IngredienteService {
 
-    private RecetaRepository recetaRepository;
 
     private IngredienteMapper ingredienteMapper;
 

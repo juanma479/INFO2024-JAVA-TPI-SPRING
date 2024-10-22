@@ -4,6 +4,7 @@ import com.info.tpi.spring.gestion_recetas.presentation.dto.ingrediente.Ingredie
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 
 import java.util.List;
 

@@ -2,6 +2,7 @@ package com.info.tpi.spring.gestion_recetas.presentation.dto.categoria;
 
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
@@ -11,5 +12,7 @@ import jakarta.validation.constraints.Size;
 public record CategoriaCreateDto(
         @NotNull(message = "El nombre de la categoria no puede ser nulo.")
         @Size(max = 255, message = "El nombre de la categoria no puede ser mayor a 255 caracteres.")
-        @Schema(description = "Nombre de la categoría.", example = "Pastas") String nombre){
+        @NotEmpty(message = "El nombre de la categoría no puede estar vacío.")
+        @Schema(description = "Nombre de la categoría.", example = "Pastas")
+        String nombre){
 }

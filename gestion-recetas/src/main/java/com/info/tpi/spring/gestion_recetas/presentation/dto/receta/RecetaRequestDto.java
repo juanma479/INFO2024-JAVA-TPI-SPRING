@@ -11,11 +11,9 @@ import jakarta.validation.constraints.Size;
 )
 public record RecetaRequestDto(
         @NotNull(message = "No se puede hacer la consulta con una receta nula.")
-        @NotEmpty(message = "No se puede hacer la consulta con una receta vacía. ")
         @Schema(description = "Receta en formato DTO con datos para la creación de la receta.")
         RecetaCreateDto recetaCreateDto,
         @NotNull(message = "No se puede hacer la consulta con una categoría nula.")
-        @NotEmpty(message = "No se puede hacer la consulta con una categoría vacía. ")
         @Schema(description = "Categoría en formato DTO con datos para la creación de la categoría de ser necesario.")
         CategoriaCreateDto categoriaCreateDto) {
 }
